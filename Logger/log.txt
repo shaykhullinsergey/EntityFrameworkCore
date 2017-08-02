@@ -1,0 +1,146 @@
+Opening connection to database 'usedb' on server '(localdb)\mssqllocaldb'.An error occurred using the connection to database 'usedb' on server '(localdb)\mssqllocaldb'.An exception occurred in the database while saving changes for context type 'Logger.UserContext'.
+System.Data.SqlClient.SqlException (0x80131904): Cannot open database "usedb" requested by the login. The login failed.
+Login failed for user 'YOLORUSHER\yolor'.
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, Object providerInfo, Boolean redirectedUserInstance, SqlConnectionString userConnectionOptions, SessionData reconnectSessionData, Boolean applyTransientFaultHandling)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, DbConnectionPoolKey poolKey, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionFactory.CreatePooledConnection(DbConnectionPool pool, DbConnection owningObject, DbConnectionOptions options, DbConnectionPoolKey poolKey, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionPool.CreateObject(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.UserCreateRequest(DbConnection owningObject, DbConnectionOptions userOptions, DbConnectionInternal oldConnection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, UInt32 waitForMultipleObjectsTimeout, Boolean allowCreate, Boolean onlyOneCheckConnection, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionPool.TryGetConnection(DbConnection owningObject, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionFactory.TryGetConnection(DbConnection owningConnection, TaskCompletionSource`1 retry, DbConnectionOptions userOptions, DbConnectionInternal oldConnection, DbConnectionInternal& connection)
+   at System.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at System.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.Open(Boolean errorsExpected)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction(IsolationLevel isolationLevel)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransaction()
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(Tuple`2 parameters)
+   at Microsoft.EntityFrameworkCore.Storage.Internal.SqlServerExecutionStrategy.Execute[TState,TResult](TState state, Func`3 operation, Func`3 verifySucceeded)
+   at Microsoft.EntityFrameworkCore.ExecutionStrategyExtensions.Execute[TState,TResult](IExecutionStrategy strategy, TState state, Func`2 operation)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.Execute(IEnumerable`1 commandBatches, IRelationalConnection connection)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChanges(IReadOnlyList`1 entries)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(IReadOnlyList`1 entriesToSave)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChanges(Boolean acceptAllChangesOnSuccess)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChanges(Boolean acceptAllChangesOnSuccess)
+ClientConnectionId:1b9683ca-832e-4e5e-854e-55fdedaf0959
+Error Number:4060,State:1,Class:11Opening connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Opened connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Beginning transaction with isolation level 'ReadCommitted'.Executing DbCommand [Parameters=[@p0='?', @p1='?' (Size = 4000), @p2='?', @p3='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @toInsert0 TABLE ([Age] int, [Name] nvarchar(max), [_Position] [int]);
+INSERT INTO @toInsert0
+VALUES (@p0, @p1, 0),
+(@p2, @p3, 1);
+
+DECLARE @inserted0 TABLE ([Id] int, [_Position] [int]);
+MERGE [Users] USING @toInsert0 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Age], [Name])
+VALUES (i.[Age], i.[Name])
+OUTPUT INSERTED.[Id], i._Position
+INTO @inserted0;
+
+SELECT [t].[Id] FROM [Users] t
+INNER JOIN @inserted0 i ON ([t].[Id] = [i].[Id])
+ORDER BY [i].[_Position];Executed DbCommand (77ms) [Parameters=[@p0='?', @p1='?' (Size = 4000), @p2='?', @p3='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @toInsert0 TABLE ([Age] int, [Name] nvarchar(max), [_Position] [int]);
+INSERT INTO @toInsert0
+VALUES (@p0, @p1, 0),
+(@p2, @p3, 1);
+
+DECLARE @inserted0 TABLE ([Id] int, [_Position] [int]);
+MERGE [Users] USING @toInsert0 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Age], [Name])
+VALUES (i.[Age], i.[Name])
+OUTPUT INSERTED.[Id], i._Position
+INTO @inserted0;
+
+SELECT [t].[Id] FROM [Users] t
+INNER JOIN @inserted0 i ON ([t].[Id] = [i].[Id])
+ORDER BY [i].[_Position];A data reader was disposed.Committing transaction.Closing connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Closed connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Disposing transaction.Compiling query model: 
+'from User <generated>_0 in DbSet<User>
+select [<generated>_0]'Optimized query model: 
+'from User <generated>_0 in DbSet<User>
+select [<generated>_0]'(QueryContext queryContext) => IEnumerable<User> _InterceptExceptions(
+    source: IEnumerable<User> _TrackEntities(
+        results: IEnumerable<User> _ShapedQuery(
+            queryContext: queryContext, 
+            shaperCommandContext: SelectExpression: 
+                SELECT [u].[Id], [u].[Age], [u].[Name]
+                FROM [Users] AS [u], 
+            shaper: UnbufferedEntityShaper<User>), 
+        queryContext: queryContext, 
+        entityTrackingInfos: { itemType: User }, 
+        entityAccessors: List<Func<User, object>> 
+        { 
+            Func<User, User>, 
+        }
+    ), 
+    contextType: Logger.UserContext, 
+    logger: DiagnosticsLogger<Query>, 
+    queryContext: queryContext)Opening connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Opened connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[Age], [u].[Name]
+FROM [Users] AS [u]Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[Age], [u].[Name]
+FROM [Users] AS [u]A data reader was disposed.Closing connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Closed connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Opening connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Opened connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Beginning transaction with isolation level 'ReadCommitted'.Executing DbCommand [Parameters=[@p0='?', @p1='?' (Size = 4000), @p2='?', @p3='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @toInsert0 TABLE ([Age] int, [Name] nvarchar(max), [_Position] [int]);
+INSERT INTO @toInsert0
+VALUES (@p0, @p1, 0),
+(@p2, @p3, 1);
+
+DECLARE @inserted0 TABLE ([Id] int, [_Position] [int]);
+MERGE [Users] USING @toInsert0 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Age], [Name])
+VALUES (i.[Age], i.[Name])
+OUTPUT INSERTED.[Id], i._Position
+INTO @inserted0;
+
+SELECT [t].[Id] FROM [Users] t
+INNER JOIN @inserted0 i ON ([t].[Id] = [i].[Id])
+ORDER BY [i].[_Position];Executed DbCommand (40ms) [Parameters=[@p0='?', @p1='?' (Size = 4000), @p2='?', @p3='?' (Size = 4000)], CommandType='Text', CommandTimeout='30']
+SET NOCOUNT ON;
+DECLARE @toInsert0 TABLE ([Age] int, [Name] nvarchar(max), [_Position] [int]);
+INSERT INTO @toInsert0
+VALUES (@p0, @p1, 0),
+(@p2, @p3, 1);
+
+DECLARE @inserted0 TABLE ([Id] int, [_Position] [int]);
+MERGE [Users] USING @toInsert0 AS i ON 1=0
+WHEN NOT MATCHED THEN
+INSERT ([Age], [Name])
+VALUES (i.[Age], i.[Name])
+OUTPUT INSERTED.[Id], i._Position
+INTO @inserted0;
+
+SELECT [t].[Id] FROM [Users] t
+INNER JOIN @inserted0 i ON ([t].[Id] = [i].[Id])
+ORDER BY [i].[_Position];A data reader was disposed.Committing transaction.Closing connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Closed connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Disposing transaction.Compiling query model: 
+'from User <generated>_0 in DbSet<User>
+select [<generated>_0]'Optimized query model: 
+'from User <generated>_0 in DbSet<User>
+select [<generated>_0]'(QueryContext queryContext) => IEnumerable<User> _InterceptExceptions(
+    source: IEnumerable<User> _TrackEntities(
+        results: IEnumerable<User> _ShapedQuery(
+            queryContext: queryContext, 
+            shaperCommandContext: SelectExpression: 
+                SELECT [u].[Id], [u].[Age], [u].[Name]
+                FROM [Users] AS [u], 
+            shaper: UnbufferedEntityShaper<User>), 
+        queryContext: queryContext, 
+        entityTrackingInfos: { itemType: User }, 
+        entityAccessors: List<Func<User, object>> 
+        { 
+            Func<User, User>, 
+        }
+    ), 
+    contextType: Logger.UserContext, 
+    logger: DiagnosticsLogger<Query>, 
+    queryContext: queryContext)Opening connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Opened connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Executing DbCommand [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[Age], [u].[Name]
+FROM [Users] AS [u]Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [u].[Id], [u].[Age], [u].[Name]
+FROM [Users] AS [u]A data reader was disposed.Closing connection to database 'userdb' on server '(localdb)\mssqllocaldb'.Closed connection to database 'userdb' on server '(localdb)\mssqllocaldb'.
